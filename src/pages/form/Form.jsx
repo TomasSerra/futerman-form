@@ -1,9 +1,12 @@
 import React, {useState, useRef} from 'react'
+import { getDatabase, ref, child, push, update } from "firebase/database";
+import app from '../../FirebaseConfig';
 import './Form.scss'
 
-function Form() {
+function Form({setPage, nextPage}) {
 
-  const scrollTargetRef = useRef(null);
+  const db = getDatabase(app);
+  const [loading, setLoading] = useState(false);
 
   // Función para manejar el evento de cierre del teclado
     const handleKeyboardClose = () => {
@@ -28,7 +31,31 @@ function Form() {
 
   function submit(){
     if(!handleErrors()){
-      console.log('Formulario enviado')
+      setLoading(true);
+      try{
+        const newPostKey = push(child(ref(db), '/')).key;
+        const updates = {};
+        updates[newPostKey] = form;
+
+        update(ref(db), updates).then(() => {
+          const voidForm = {
+            nombre: '',
+            email: '',
+            telefono: '',
+            profesion: '',
+            especialidad: '',
+          }
+          setForm(voidForm);
+          setPage(nextPage);
+
+        }).catch((error) => {
+          alert('Error al enviar el formulario, intenta nuevamente')
+        });
+      }
+      catch(e){
+        alert('Error al enviar el formulario, intenta nuevamente')
+      }
+      setLoading(false);
     }
   }
 
@@ -82,7 +109,7 @@ function Form() {
   return (
     <div className='form-container' onBlur={handleKeyboardClose}>
       <h1>Ingrese sus datos</h1>
-      <div className="inputs-container" ref={scrollTargetRef}>
+      <div className="inputs-container">
         <div className='input-container'>
           <label>Nombre*</label>
           <input type="text" name="nombre" value={form.nombre} onChange={handleChange} style={error.nombre ? {outline: 'red 2px solid' } : {outline: 'none' }}/>
@@ -108,7 +135,7 @@ function Form() {
           <input type="text" name="especialidad" value={form.especialidad} onChange={handleChange} style={error.especialidad ? {outline: 'red 2px solid' } : {outline: 'none' }}/>
           <span>{error.especialidad}</span>
         </div>
-        <button onClick={submit}>Siguiente</button>
+        <button onClick={submit} disabled={loading}>{loading ? 'Subiendo datos...' : "Siguiente"}</button>
       </div>      
     </div>
   )

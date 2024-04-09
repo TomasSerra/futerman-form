@@ -14,13 +14,14 @@ function App() {
   }
 
   const [page, setPage] = useState(0);
+  const [prize, setPrize] = useState(0);
 
   return (
     <>
       {page === routes.home && <Home setPage={setPage} nextPage={routes.form}/>}
-      {page === routes.form && <Form setPage={setPage}/>}
-      {page === routes.roulette && <Roulette setPage={setPage}/>}
-      {page === routes.end && <End setPage={setPage}/>}
+      {page === routes.form && <Form setPage={setPage} nextPage={routes.roulette}/>}
+      {page === routes.roulette && <Roulette setPage={setPage} nextPage={routes.end} setPrize={setPrize}/>}
+      {page === routes.end && <End setPage={setPage} prize={prize}/>}
     </>
   )
 }
