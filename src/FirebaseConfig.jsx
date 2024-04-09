@@ -3,7 +3,7 @@ import 'firebase/database';
 
 // Configura Firebase con la configuración de tu proyecto
 const firebaseConfig = {
-    apiKey: "AIzaSyDm9Y7WW-Ovh9k9FigCTn6tU6AjKifPjas",
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: "futerman-form.firebaseapp.com",
     databaseURL: "https://futerman-form-default-rtdb.firebaseio.com",
     projectId: "futerman-form",
