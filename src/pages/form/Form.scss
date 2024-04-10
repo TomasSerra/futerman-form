@@ -5,6 +5,9 @@
     height: fit-content;
     overflow: scroll;
     min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     h1{
         color: white;
@@ -14,10 +17,15 @@
     }
 
     .inputs-container{
-        width: 100%;
+        width: 90%;
         display: flex;
         align-items: center;
         flex-direction: column;
+        background-color: #543c77b9;
+        border-radius: 20px;
+        box-sizing: border-box;
+        padding-top: 20px;
+        
 
         .input-container{
             width: 80%;
@@ -45,20 +53,23 @@
                 color: red;
             }
         }
-        button{
-            background-color: #004884;
-            color: white;
-            width: 80%;
-            border: none;
-            height: fit-content;
-            padding: 10px 15px;
-            font-size: 20px;
-            border-radius: 8px;
-            margin-top: 15px;
-            margin-bottom: 30px;
-            &:disabled{
-                opacity: 0.7;
-            }
+    }
+    button{
+        background-color: #72559F;
+        color: white;
+        width: 90%;
+        border: none;
+        height: fit-content;
+        padding: 10px 15px;
+        font-size: 20px;
+        border-radius: 8px;
+        margin-top: 15px;
+        margin-bottom: 30px;
+        &:disabled{
+            opacity: 0.7;
+        }
+        &:active{
+            background-color: #543c77;
         }
     }
 }

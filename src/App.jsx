@@ -13,7 +13,7 @@ function App() {
     end: 3
   }
 
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [prize, setPrize] = useState(0);
 
   return (

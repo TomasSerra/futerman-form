@@ -11,14 +11,14 @@ function RoulettePage({nextPage, setPage}) {
   const [rotate, setRotate] = useState(false);
 
   const data = [
-    { option: '10%', style: { backgroundColor: '#52b788', textColor: 'black' } },
-    { option: '5%', style: { backgroundColor: '#f48c06', textColor: 'black' } },
-    { option: '10%', style: { backgroundColor: '#52b788', textColor: 'black' } },
-    { option: '20%', style: { backgroundColor: '#f15bb5', textColor: 'black' } },
-    { option: '10%', style: { backgroundColor: '#52b788', textColor: 'black' } },
-    { option: '5%', style: { backgroundColor: '#f48c06', textColor: 'black' } },
-    { option: '10%', style: { backgroundColor: '#52b788', textColor: 'black' } },
-    { option: '15%', style: { backgroundColor: '#9381ff', textColor: 'black' } },
+    { option: '10%', style: { backgroundColor: '#9A99F2', textColor: 'black' } },
+    { option: '5%', style: { backgroundColor: '#CCDCFF', textColor: 'black' } },
+    { option: '10%', style: { backgroundColor: '#9A99F2', textColor: 'black' } },
+    { option: '20%', style: { backgroundColor: '#FFDD55', textColor: 'black' } },
+    { option: '10%', style: { backgroundColor: '#9A99F2', textColor: 'black' } },
+    { option: '5%', style: { backgroundColor: '#CCDCFF', textColor: 'black' } },
+    { option: '10%', style: { backgroundColor: '#9A99F2', textColor: 'black' } },
+    { option: '15%', style: { backgroundColor: '#f15bb5', textColor: 'black' } },
   ]
 
   //Bloquear click derecho
@@ -29,6 +29,8 @@ function RoulettePage({nextPage, setPage}) {
     const preventZoom = (e) => {
       e.preventDefault();
     };
+
+    document.body.classList.add('no-scroll');
 
     document.addEventListener('gesturestart', preventZoom);
     document.addEventListener('contextmenu', bloquearClickDerecho);
@@ -47,7 +49,7 @@ function RoulettePage({nextPage, setPage}) {
 
   function calculateProbability(){
     let number = Math.floor(Math.random()*100);
-    return number < 20 ? 0 : number < 40 ? 2 : number < 60 ? 4 : number < 80 ? 6 : number < 85 ? 1 : number < 95 ? 5 : 2;
+    return number < 20 ? 0 : number < 40 ? 2 : number < 60 ? 4 : number < 80 ? 6 : number < 85 ? 1 : 5;
   }
 
   function stopSpinning(){
@@ -70,15 +72,15 @@ function RoulettePage({nextPage, setPage}) {
             onStopSpinning={() => {
               stopSpinning();
             }}
-            outerBorderWidth={30}
-            outerBorderColor={'#004884'}
+            outerBorderWidth={20}
+            outerBorderColor={'#72559F'}
             radiusLineWidth={0}
             radiusLineColor='white'
             fontSize={30}
             spinDuration={0.5}
             pointerProps={{style:{width: '23%'}}}
             innerRadius={0}
-            innerBorderColor={'#004884'}
+            innerBorderColor={'#72559F'}
             innerBorderWidth={40}
           />
           {text && <img className={styles.hand} src={Hand}/>}

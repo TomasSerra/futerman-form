@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import { getDatabase, ref, child, push, update } from "firebase/database";
 import app from '../../FirebaseConfig';
 import './Form.scss'
@@ -8,10 +8,6 @@ function Form({setPage, nextPage}) {
   const db = getDatabase(app);
   const [loading, setLoading] = useState(false);
 
-  // Función para manejar el evento de cierre del teclado
-    const handleKeyboardClose = () => {
-      window.scrollTo(0, 0);
-  };
 
   const [form, setForm] = useState({
     nombre: '',
@@ -28,6 +24,10 @@ function Form({setPage, nextPage}) {
     profesion: '',
     especialidad: '',
   })
+
+  useEffect(() => {
+    document.body.classList.remove('no-scroll');
+  }, []);
 
   function submit(){
     if(!handleErrors()){
@@ -107,7 +107,7 @@ function Form({setPage, nextPage}) {
   }
 
   return (
-    <div className='form-container' onBlur={handleKeyboardClose}>
+    <div className='form-container'>
       <h1>Ingrese sus datos</h1>
       <div className="inputs-container">
         <div className='input-container'>
@@ -135,8 +135,8 @@ function Form({setPage, nextPage}) {
           <input type="text" name="especialidad" value={form.especialidad} onChange={handleChange} style={error.especialidad ? {outline: 'red 2px solid' } : {outline: 'none' }}/>
           <span>{error.especialidad}</span>
         </div>
-        <button onClick={submit} disabled={loading}>{loading ? 'Subiendo datos...' : "Siguiente"}</button>
-      </div>      
+      </div>     
+      <button onClick={submit} disabled={loading}>{loading ? 'Subiendo datos...' : "Siguiente"}</button> 
     </div>
   )
 }
