@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Home from './pages/home/Home';
 import Form from './pages/form/Form';
-import Roulette from './pages/roulette/Roulette';
+import Roulette from './pages/roulette/RoulettePage';
 import End from './pages/end/End';
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
     end: 3
   }
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(2);
   const [prize, setPrize] = useState(0);
 
   return (

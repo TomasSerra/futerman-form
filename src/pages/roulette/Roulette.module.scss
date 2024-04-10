@@ -1,0 +1,108 @@
+.Roulette{
+    width: 100%;
+    height: 100dvh;
+    background-image: url('../../imgs/form-bg.png');
+    background-size: cover;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    .background{
+        position: fixed;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        img{
+            margin-left: -25%;
+            width: 150%;
+            height: 100%;
+        }
+    }
+
+    .logo, .text, .button{
+        z-index: 1;
+        position: absolute;
+    }
+
+    .logo{
+        top: 9vh;
+        width: 30%;
+    }
+
+    .text{
+        bottom: 10dvh;
+        font-size: 10vw;
+        color: white;
+        padding: 0 8vw;
+        font-weight: bold;
+        animation: textAnim 1.5s infinite;
+    }
+
+    .button{
+        background-color: #D82C3E;
+        bottom: 10%;
+        a{
+            transform: skewX(0deg);
+            &:active{
+                background-color: #D82C3E;
+            }
+        }
+    }
+
+    .roulette-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-bottom: 10%;
+        width: 100vw;
+        div:nth-of-type(1){
+            width: 90vw !important;
+            height: 90vw !important;
+            max-width: 600px !important;
+            max-height: 600px !important;
+        }
+        .hand{
+            z-index: 5;
+            position: absolute;
+            width: 85%;
+            bottom: -45%;
+            right: -35%;
+            animation: handAnim 1.5s infinite;
+        }
+    }
+}
+
+@media (max-width: 440px) {
+    .Roulette{
+        .text{
+
+        }
+    }
+}
+
+@keyframes handAnim {
+    0% {
+        transform: translate(0, 0) rotate(-30deg);
+    }
+    50% {
+        transform: translate(10px, 20px) rotate(-30deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(-30deg);
+    }
+}
+
+@keyframes textAnim {
+    0% {
+        font-size: 6vw;
+    }
+    50% {
+        font-size: 5.5vw;
+    }
+    100% {
+        font-size: 6vw;
+    }
+}

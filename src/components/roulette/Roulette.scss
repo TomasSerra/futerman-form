@@ -1,0 +1,93 @@
+//$BNAblue: #005e85;
+//$BNAlightBlue: #23abe0;
+//$BNAdarkblue: #00354c;
+$mainColor: #004884;
+$mainShadowColor: #00335e;
+
+.center{
+    position: absolute;
+    z-index: 5;
+    border-radius: 50%;
+    background-color: $mainColor;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    box-shadow: 0px 8px $mainShadowColor;
+    img{
+        width: 110%;
+        z-index: 5;
+    }
+    .circle{
+        z-index: 4;
+        position: absolute;
+        background-color: $mainColor;
+        border-radius: 50%;
+    }
+    .line{
+        width: 0;
+        height: 0;
+        position: absolute;
+        z-index: 4;
+        border-left-color: $mainColor !important;
+    }
+    .shadow-line{
+        width: 0;
+        height: 0;
+        position: absolute;
+        z-index: 3;
+        border-left-color: $mainShadowColor !important;
+    }
+}
+.roulette-container{
+    position: absolute;
+    z-index: 3;
+    border-radius: 50%;
+    border: $mainColor solid;
+    box-shadow: 0px 8px $mainShadowColor;
+}
+.shadow{
+    position: absolute;
+    z-index: 2;
+    border-radius: 50%;
+    border: rgba(0, 0, 0, 0.073) solid 20px;
+}
+
+.roulette{
+    position: absolute;
+    overflow: hidden;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    .triangle {
+        z-index: 1;
+        width: 0; 
+        height: 0;
+        position: absolute;
+        right: 0; 
+    }
+    h1{
+        color: rgb(0, 0, 0);
+        z-index: 2;
+        position: absolute;
+        font-weight: bold;
+    }
+    .selected{
+        animation: selected linear 1s infinite;
+    }
+}
+
+
+@keyframes selected {
+    0%{
+        filter: brightness(100%);
+    }
+    50%{
+        filter: brightness(70%);
+    }
+    100%{
+        filter: brightness(100%);
+    }
+}
