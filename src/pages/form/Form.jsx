@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react'
-import { getDatabase, ref, child, push, update } from "firebase/database";
+import { getDatabase, ref, child, push, update , get} from "firebase/database";
 import app from '../../FirebaseConfig';
 import './Form.scss'
 
@@ -33,23 +33,49 @@ function Form({setPage, nextPage}) {
     if(!handleErrors()){
       setLoading(true);
       try{
-        const newPostKey = push(child(ref(db), '/')).key;
-        const updates = {};
-        updates[newPostKey] = form;
-
-        update(ref(db), updates).then(() => {
-          const voidForm = {
-            nombre: '',
-            email: '',
-            telefono: '',
-            profesion: '',
-            especialidad: '',
+        var alreadyRegistered = false;
+        const dbRef = ref(getDatabase(app));
+        get(child(dbRef, 'emails/')).then((emails) => {
+          for(const key in emails.val()){
+            const email = emails.val()[key];
+            console.log(email);
+            if(email === form.email){
+              alert('El email ya se encuentra registrado')
+              setLoading(false);
+              alreadyRegistered = true;
+              break;
+            }
           }
-          setForm(voidForm);
-          setPage(nextPage);
-
+          if (alreadyRegistered === false) {
+            const newPostKey = push(child(ref(db), '/')).key;
+            localStorage.setItem('postKey', newPostKey);
+            const updates = {};
+            updates[newPostKey] = form;
+    
+            update(ref(db), updates).then(() => {
+              const voidForm = {
+                nombre: '',
+                email: '',
+                telefono: '',
+                profesion: '',
+                especialidad: '',
+              }
+              const emails = {};
+              emails["/emails/" + newPostKey] = form.email;
+    
+              update(ref(db), emails).then(() => {
+                setForm(voidForm);
+                setPage(nextPage);
+      
+              }).catch((error) => {
+                alert('Error al enviar el formulario, intenta nuevamente')
+              });
+            }).catch((error) => {
+              alert('Error al enviar el formulario, intenta nuevamente')
+            });
+          }
         }).catch((error) => {
-          alert('Error al enviar el formulario, intenta nuevamente')
+          console.error(error);
         });
       }
       catch(e){

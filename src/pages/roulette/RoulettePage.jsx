@@ -3,12 +3,18 @@ import styles from './Roulette.module.scss'
 import Roulette from '../../components/roulette/Roulette'
 import Hand from '../../imgs/mano.webp'
 import { Wheel, WheelData } from 'react-custom-roulette'
+import { getDatabase, ref, child, push, update , get} from "firebase/database";
+import app from '../../FirebaseConfig';
+
+
 
 function RoulettePage({nextPage, setPage}) {
   
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [text, setText] = useState(true);
   const [rotate, setRotate] = useState(false);
+  const db = getDatabase(app);
+
 
   const data = [
     { option: '10%', style: { backgroundColor: '#9A99F2', textColor: 'black' } },
@@ -54,13 +60,19 @@ function RoulettePage({nextPage, setPage}) {
 
   function stopSpinning(){
     setRotate(false);
-    setTimeout(()=>{
-      setPage(nextPage);
-    }, 5000)
+    const postKey = localStorage.getItem('postKey');
+    const updates = {};
+    updates[postKey] = {descuento: prizeNumber};
+
+    update(ref(db), updates).then(() => {
+      setTimeout(()=>{
+        setPage(nextPage);
+      }, 5000)
+    })
   }
 
   return (
-      <div className={styles.Roulette} onMouseDown={()=>{if(rotate || text) rotateRoulette();}} onResizeCapture={(e)=>console.log(e)}>
+      <div className={styles.Roulette} onMouseDown={()=>{if(!rotate || text) rotateRoulette();}} onResizeCapture={(e)=>console.log(e)}>
           <div className={styles.background}>
           </div>
           {text && <h1 className={styles.text}>TOCA PARA JUGAR</h1>}
