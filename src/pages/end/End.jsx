@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import styles from './End.module.scss'
 import Logo1 from '../../imgs/futerman-logo.png'
 import Logo2 from '../../imgs/hyalur-logo.png'
@@ -8,9 +8,17 @@ import Discount from '../../imgs/discount.png'
 
 function End({discount}) {
 
+  const [hasDiscount, setHasDiscount] = useState(0);
+
   useEffect(() => {
     document.body.classList.add('no-scroll');
-    localStorage.setItem('discount', discount);
+
+    if(localStorage.getItem('discount') !== null){
+     setHasDiscount(localStorage.getItem('discount'));
+    }
+    else{
+      localStorage.setItem('discount', discount);
+    }
   }, []);
 
   return (
@@ -22,13 +30,13 @@ function End({discount}) {
       </div>
 
       <div className={styles['discount']}>
-        <h1>{discount}% OFF</h1>
+        <h1>{hasDiscount !== 0 ? hasDiscount : discount}% OFF</h1>
         <p>Para usar en tu compra dentro de la feria</p>
         <img src={Discount} draggable={false}/>
       </div>
 
       <div className={styles['logos']}>
-        <img src={Logo2} draggable='false'/>
+        <img src={Logo2}/>
         <img src={Logo3} draggable='false'/>
       </div>
     </div>

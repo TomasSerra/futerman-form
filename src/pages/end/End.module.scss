@@ -8,6 +8,13 @@
     overflow: hidden;
     position: relative;
 
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    -khtml-user-select: none;
+
     .titles{
         display: flex;
         flex-direction: column;
