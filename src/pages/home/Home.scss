@@ -6,7 +6,6 @@
     background-image: url('../../imgs/bg.png');
     background-size: cover;
     overflow: hidden;
-    justify-content: space-between;
 
     .img-container{
         width: 40%;
@@ -25,8 +24,8 @@
         padding: 3% 5%;
         border-radius: 20px;
         color: white;
-        font-size: 4dvh;
-        text-shadow: rgba(0, 0, 0, 0.521) 2px 2px 15px;
+        font-size: 3.5dvh;
+        text-shadow: rgba(0, 0, 0, 0.699) 2px 2px 15px;
         text-align: center;
         margin-bottom: 30px;
     }
@@ -40,10 +39,12 @@
         height: 40dvh;
         background-size: cover;
         flex-direction: column;
+        position: absolute;
+        bottom: 0dvh;
         
         .button-container{
-            width: 40vw;
-            height: 40vw;
+            width: 20dvh;
+            height: 20dvh;
             margin-top: 30px;
     
             img{

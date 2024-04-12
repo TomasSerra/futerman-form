@@ -32,57 +32,62 @@ function Form({setPage, nextPage}) {
   function submit(){
     if(!handleErrors()){
       setLoading(true);
-      try{
-        var alreadyRegistered = false;
-        const dbRef = ref(getDatabase(app));
-        get(child(dbRef, 'emails/')).then((emails) => {
-          for(const key in emails.val()){
-            const email = emails.val()[key];
-            if(email === form.email){
-              alert('El email ya se encuentra registrado')
-              setLoading(false);
-              alreadyRegistered = true;
-              break;
-            }
-          }
-          if (alreadyRegistered === false) {
-            const newPostKey = push(child(ref(db), '/')).key;
-            localStorage.setItem('postKey', newPostKey);
-            const updates = {};
-            updates[newPostKey] = form;
-    
-            update(ref(db), updates).then(() => {
-              const voidForm = {
-                nombre: '',
-                email: '',
-                telefono: '',
-                profesion: '',
-                especialidad: '',
-              }
-              const emails = {};
-              emails["/emails/" + newPostKey] = form.email;
-    
-              update(ref(db), emails).then(() => {
-                setForm(voidForm);
-                setPage(nextPage);
+      if(navigator.onLine){
+        try{
+          var alreadyRegistered = false;
+          const dbRef = ref(getDatabase(app));
+          get(child(dbRef, 'emails/')).then((emails) => {
+            for(const key in emails.val()){
+              const email = emails.val()[key];
+              if(email === form.email){
+                alert('El email ya se encuentra registrado')
                 setLoading(false);
+                alreadyRegistered = true;
+                break;
+              }
+            }
+            if (alreadyRegistered === false) {
+              const newPostKey = push(child(ref(db), '/')).key;
+              localStorage.setItem('postKey', newPostKey);
+              const updates = {};
+              updates[newPostKey] = form;
       
+              update(ref(db), updates).then(() => {
+                const voidForm = {
+                  nombre: '',
+                  email: '',
+                  telefono: '',
+                  profesion: '',
+                  especialidad: '',
+                }
+                const emails = {};
+                emails["/emails/" + newPostKey] = form.email;
+      
+                update(ref(db), emails).then(() => {
+                  setForm(voidForm);
+                  setPage(nextPage);
+                  setLoading(false);
+        
+                }).catch((error) => {
+                  alert('Error al enviar el formulario, intenta nuevamente')
+                  setLoading(false);
+                });
               }).catch((error) => {
                 alert('Error al enviar el formulario, intenta nuevamente')
                 setLoading(false);
               });
-            }).catch((error) => {
-              alert('Error al enviar el formulario, intenta nuevamente')
-              setLoading(false);
-            });
-          }
-        }).catch((error) => {
+            }
+          }).catch((error) => {
+            alert('Error al enviar el formulario, intenta nuevamente')
+            setLoading(false);
+          });
+        }
+        catch(e){
           alert('Error al enviar el formulario, intenta nuevamente')
           setLoading(false);
-        });
-      }
-      catch(e){
-        alert('Error al enviar el formulario, intenta nuevamente')
+        }
+      }else{
+        alert('Por favor conectate a internet para continuar');
         setLoading(false);
       }
     }

@@ -47,9 +47,13 @@ function RoulettePage({nextPage, setPage, setDiscount, discount}) {
   }, []);
 
   function rotateRoulette(){
-    setPrizeNumber(calculateProbability());
-    setRotate(true);
-    setText(false);
+    if(navigator.onLine){
+      setPrizeNumber(calculateProbability());
+      setRotate(true);
+      setText(false);
+    }else{
+      alert('Por favor conectate a internet para continuar');
+    }
   }
 
   function calculateProbability(){
@@ -62,11 +66,29 @@ function RoulettePage({nextPage, setPage, setDiscount, discount}) {
     const postKey = localStorage.getItem('postKey');
     const updates = {descuento: discount+'%'};
 
-    update(ref(db, '/'+postKey), updates).then(() => {
-      setTimeout(()=>{
-        setPage(nextPage);
-      }, 5000)
-    })
+    if (navigator.onLine) {
+      try{
+        update(ref(db, '/'+postKey), updates).then(() => {
+          setTimeout(()=>{
+            setPage(nextPage);
+          }, 2000)
+        }).catch((error) => {
+          alert('Error al conectar con la base de datos, intenta nuevamente');
+          setRotate(false);
+          setText(true);
+        });
+      }
+      catch(e){
+        alert('Error al conectar con la base de datos, intenta nuevamente');
+        setRotate(false);
+        setText(true);
+      }
+    }else{
+      alert('Por favor conectate a internet para continuar');
+      setRotate(false);
+      setText(true);
+    }
+
   }
 
   return (
