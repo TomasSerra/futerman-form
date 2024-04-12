@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 import styles from './Roulette.module.scss'
-import Roulette from '../../components/roulette/Roulette'
 import Hand from '../../imgs/mano.webp'
-import { Wheel, WheelData } from 'react-custom-roulette'
-import { getDatabase, ref, child, push, update , get} from "firebase/database";
+import { Wheel} from 'react-custom-roulette'
+import { getDatabase, ref, update} from "firebase/database";
 import app from '../../FirebaseConfig';
 
 
 
-function RoulettePage({nextPage, setPage}) {
+function RoulettePage({nextPage, setPage, setDiscount, discount}) {
   
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [text, setText] = useState(true);
@@ -55,16 +54,15 @@ function RoulettePage({nextPage, setPage}) {
 
   function calculateProbability(){
     let number = Math.floor(Math.random()*100);
-    return number < 20 ? 0 : number < 40 ? 2 : number < 60 ? 4 : number < 80 ? 6 : number < 85 ? 1 : 5;
+    setDiscount(number < 80 ? 10 : number < 95 ? 5 : 15)
+    return number < 20 ? 0 : number < 40 ? 2 : number < 60 ? 4 : number < 80 ? 6 : number < 87 ? 1 : number < 95 ? 5 : 7;
   }
 
   function stopSpinning(){
-    setRotate(false);
     const postKey = localStorage.getItem('postKey');
-    const updates = {};
-    updates[postKey] = {descuento: prizeNumber};
+    const updates = {descuento: discount+'%'};
 
-    update(ref(db), updates).then(() => {
+    update(ref(db, '/'+postKey), updates).then(() => {
       setTimeout(()=>{
         setPage(nextPage);
       }, 5000)
@@ -73,8 +71,7 @@ function RoulettePage({nextPage, setPage}) {
 
   return (
       <div className={styles.Roulette} onMouseDown={()=>{if(!rotate || text) rotateRoulette();}} onResizeCapture={(e)=>console.log(e)}>
-          <div className={styles.background}>
-          </div>
+          <h1 className={styles.title}>Girá la ruleta</h1>
           {text && <h1 className={styles.text}>TOCA PARA JUGAR</h1>}
           <div className={styles['roulette-container']}>
           <Wheel

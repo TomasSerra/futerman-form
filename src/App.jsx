@@ -13,15 +13,15 @@ function App() {
     end: 3
   }
 
-  const [page, setPage] = useState(1);
-  const [prize, setPrize] = useState(0);
+  const [page, setPage] = useState(0);
+  const [discount, setDiscount] = useState(10);
 
   return (
     <>
       {page === routes.home && <Home setPage={setPage} nextPage={routes.form}/>}
       {page === routes.form && <Form setPage={setPage} nextPage={routes.roulette}/>}
-      {page === routes.roulette && <Roulette setPage={setPage} nextPage={routes.end} setPrize={setPrize}/>}
-      {page === routes.end && <End setPage={setPage} prize={prize}/>}
+      {page === routes.roulette && <Roulette setPage={setPage} nextPage={routes.end} setDiscount={setDiscount} discount={discount}/>}
+      {page === routes.end && <End discount={discount}/>}
     </>
   )
 }

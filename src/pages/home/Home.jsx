@@ -3,12 +3,17 @@ import './Home.scss'
 
 import FutermanLogo from '../../imgs/futerman-logo.png'
 import HylaurLogo from '../../imgs/hyalur-logo.png'
-import { FaPlay } from "react-icons/fa";
+import HydroLogo from '../../imgs/hydro-logo.png'
+import PlayButton from '../../imgs/play-button.png'
 
 function Home({setPage, nextPage}) {
   
   useEffect(() => {
     document.body.classList.add('no-scroll');
+    const discount = localStorage.getItem('discount');
+    if(discount){
+      setPage(3);
+    }
   }, []);
 
   return (
@@ -16,11 +21,14 @@ function Home({setPage, nextPage}) {
         <div className="img-container">
             <img src={FutermanLogo}/>
             <img src={HylaurLogo}/>
-            <img/>
+            <img src={HydroLogo} />
         </div>
-        <h1>¿Listo para jugar?</h1>
-        <div className="button-container">
-            <button onClick={()=>{setPage(nextPage)}}><FaPlay size={40} color='white'/></button>
+        <h1>Girá la ruleta y ganá un descuento para tu compra dentro de la feria</h1>
+        <div className="bottom">
+          <div className="button-container">
+              <img src={PlayButton} onClick={()=>{setPage(nextPage)}}/>
+          </div>
+          <h3>Jugar</h3>
         </div>
     </div>
   )

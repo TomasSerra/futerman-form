@@ -38,7 +38,6 @@ function Form({setPage, nextPage}) {
         get(child(dbRef, 'emails/')).then((emails) => {
           for(const key in emails.val()){
             const email = emails.val()[key];
-            console.log(email);
             if(email === form.email){
               alert('El email ya se encuentra registrado')
               setLoading(false);
@@ -66,22 +65,26 @@ function Form({setPage, nextPage}) {
               update(ref(db), emails).then(() => {
                 setForm(voidForm);
                 setPage(nextPage);
+                setLoading(false);
       
               }).catch((error) => {
                 alert('Error al enviar el formulario, intenta nuevamente')
+                setLoading(false);
               });
             }).catch((error) => {
               alert('Error al enviar el formulario, intenta nuevamente')
+              setLoading(false);
             });
           }
         }).catch((error) => {
-          console.error(error);
+          alert('Error al enviar el formulario, intenta nuevamente')
+          setLoading(false);
         });
       }
       catch(e){
         alert('Error al enviar el formulario, intenta nuevamente')
+        setLoading(false);
       }
-      setLoading(false);
     }
   }
 
